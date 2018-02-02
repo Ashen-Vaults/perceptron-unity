@@ -7,20 +7,23 @@ namespace AshenCode.NeuralNetworks.Perceptron
     public class Line : MonoBehaviour 
     {
         [SerializeField]
-        LineRenderer _lineView;
+        LineRenderer _view;
+
+        [SerializeField]
+        public LineData data;
 
         void Awake()
         {
-            if(_lineView == null)
+            if(_view == null)
             {
-                _lineView = this.GetComponent<LineRenderer>();
+                _view = this.GetComponent<LineRenderer>();
             }
         }
 
         public void DrawLine(Vector3 pointA, Vector3 pointB)
         {
-            _lineView.SetPosition(0, pointA);
-            _lineView.SetPosition(1, pointB);
+            _view.SetPosition(0, pointA);
+            _view.SetPosition(1, pointB);
         }
 
     }   

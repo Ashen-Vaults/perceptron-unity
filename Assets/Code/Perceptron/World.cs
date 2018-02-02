@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,9 @@ namespace AshenCode.NeuralNetworks.Perceptron
         List<Point> _points;
 
         [SerializeField]
+        List<Line> _lines;
+
+        [SerializeField]
         List<float> _inputs;
 
         [SerializeField]
@@ -29,9 +33,6 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         Coroutine _simRoutine;
 
-        [SerializeField]
-        LineRenderer _targetLine;
-
         void Awake()
         {
             
@@ -41,20 +42,19 @@ namespace AshenCode.NeuralNetworks.Perceptron
             }
 
             _perceptron = new Perceptron(2);
+   
+        }  
 
-            DrawLine();
-    
+        void Start()
+        {
+            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_left"](), LineDispatch.lineCoordinates["top_right"]() ));
+ 
             StartCoroutine(CreatePoints( _simDuration, x => 
             { 
                 StartCoroutine(AnimateSimulation(_simDuration));
-            }));
-        }  
-
-        void DrawLine()
-        {
-            _targetLine.SetPosition(0,Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane/2)));
-            _targetLine.SetPosition(1,Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.farClipPlane/2)));
+            }));    
         }
+
 
             /// TODO: Perhaps move this out of world
         /// Instantiates points in world space

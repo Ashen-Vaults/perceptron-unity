@@ -3,87 +3,88 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
- [Serializable]
-public class Point
+namespace AshenCode.NeuralNetworks.Perceptron
 {
-
-    [SerializeField]
-    Vector3 _position;
-
-    [SerializeField]
-    int _label;
-
-    GameObject _body;
-
-    public int Label
+    [Serializable]
+    public class Point
     {
-        get{ return CalculateLabel(_position); }
-    }
 
+        [SerializeField]
+        Vector3 _position;
 
-    public Point()
-    {
-        _position = Camera.main.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
+        [SerializeField]
+        int _label;
 
-        _label = CalculateLabel(_position); 
-    }
+        GameObject _body;
 
-    int CalculateLabel(Vector3 size)
-    {
-        if(size.x > size.y)
+        public int Label
         {
-            return 1;
+            get{ return CalculateLabel(_position); }
         }
-        else
-        {
-            return -1;
-        }
-    }
 
-    ///TODO: visualize
-    public void Display(Func<GameObject> prefab, Transform parent)
-    {
-        if(_body == null)
-        {
-            _body = prefab();
-        }
-        _body.transform.SetParent(parent);
-        _body.transform.localPosition = _position;
 
-        if(_label == 1)
+        public Point()
         {
-            SetColor(Color.white);
-        }
-        else
-        {
-            SetColor(Color.black);
-        }
-    }
+            _position = Camera.main.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
 
-    public void Compare(int guess)
-    {
-        if(guess == _label)
-        {
-            SetColor(Color.green);
+            _label = CalculateLabel(_position); 
         }
-        else
-        {
-            SetColor(Color.red);
-        }
-    }
 
-    public void SetColor(Color color)
-    {
-        if(_body != null)
+        int CalculateLabel(Vector3 size)
         {
-            Renderer render = _body.GetComponent<Renderer>();
-            if(render != null)  
+            if(size.x > size.y)
             {
-                render.material.color = color;
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        ///TODO: visualize
+        public void Display(Func<GameObject> prefab, Transform parent)
+        {
+            if(_body == null)
+            {
+                _body = prefab();
+            }
+            _body.transform.SetParent(parent);
+            _body.transform.localPosition = _position;
+
+            if(_label == 1)
+            {
+                SetColor(Color.white);
+            }
+            else
+            {
+                SetColor(Color.black);
+            }
+        }
+
+        public void Compare(int guess)
+        {
+            if(guess == _label)
+            {
+                SetColor(Color.green);
+            }
+            else
+            {
+                SetColor(Color.red);
+            }
+        }
+
+        public void SetColor(Color color)
+        {
+            if(_body != null)
+            {
+                Renderer render = _body.GetComponent<Renderer>();
+                if(render != null)  
+                {
+                    render.material.color = color;
+                }
             }
         }
     }
-
 }
  

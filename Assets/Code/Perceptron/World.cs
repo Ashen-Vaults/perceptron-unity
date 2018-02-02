@@ -47,12 +47,18 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         void Start()
         {
-            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_left"](), LineDispatch.lineCoordinates["top_right"]() ));
- 
+            DrawLines();
+
             StartCoroutine(CreatePoints( _simDuration, x => 
             { 
                 StartCoroutine(AnimateSimulation(_simDuration));
             }));    
+        }
+
+        [ContextMenu("Draw Line")]
+        void DrawLines()
+        {
+            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_left"](), LineDispatch.lineCoordinates["top_right"]() ));
         }
 
 

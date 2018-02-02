@@ -20,6 +20,11 @@ public class World : MonoBehaviour
     [SerializeField]
     GameObject _prefab;
 
+    [SerializeField][Range(0,1)]
+    float _simDuration=0.5f;
+
+    Coroutine _simRoutine;
+
     void Awake()
     {
         
@@ -34,13 +39,18 @@ public class World : MonoBehaviour
     }  
 
 
+    [ContextMenu("Simulate")]
     void Start()
     {
-        Simulate();
+        if(_simRoutine != null)
+        {
+            StopCoroutine(_simRoutine);
+        }
+        _simRoutine = StartCoroutine(Simulate(_simDuration));
     }
 
-    [ContextMenu("Simulate")]
-    void Simulate()
+
+    IEnumerator Simulate(float duration=0.5f)
     {
         for (int i = 0; i < _points.Count; i++)
         { 
@@ -52,6 +62,8 @@ public class World : MonoBehaviour
                 }, 
                 this.transform
             );
+
+            yield return new WaitForSeconds(duration);
      
             _perceptron.Train(_inputs, _points[i].Label);
 
@@ -65,6 +77,8 @@ public class World : MonoBehaviour
             {
                 _points[i].SetColor(Color.red);
             }
+
+            yield return null;
         }
     } 
 }

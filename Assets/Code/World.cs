@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,9 @@ public class World : MonoBehaviour
 
     Coroutine _simRoutine;
 
+    [SerializeField]
+    LineRenderer _targetLine;
+
     void Awake()
     {
         
@@ -35,22 +39,24 @@ public class World : MonoBehaviour
 
         _perceptron = new Perceptron(2);
 
-        Debug.Log(_perceptron.Guess(_inputs));
+        DrawLine();
+  
+        StartCoroutine(CreatePoints( _simDuration, x => 
+        { 
+            StartCoroutine(AnimateSimulation(_simDuration));
+        }));
     }  
 
-
-    [ContextMenu("Simulate")]
-    void Start()
+    void DrawLine()
     {
-        if(_simRoutine != null)
-        {
-            StopCoroutine(_simRoutine);
-        }
-        _simRoutine = StartCoroutine(Simulate(_simDuration));
+        _targetLine.SetPosition(0,Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane/2)));
+        _targetLine.SetPosition(1,Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.farClipPlane/2)));
     }
 
-
-    IEnumerator Simulate(float duration=0.5f)
+        /// TODO: Perhaps move this out of world
+    /// Instantiates points in world space
+    ///
+    IEnumerator CreatePoints(float duration, Action<float> onComplete)
     {
         for (int i = 0; i < _points.Count; i++)
         { 
@@ -64,22 +70,46 @@ public class World : MonoBehaviour
             );
 
             yield return new WaitForSeconds(duration);
-     
+        }
+
+        if(onComplete != null)
+        {
+            onComplete(duration);
+        }
+    }
+
+
+    #region Simulation
+
+    [ContextMenu("Simulate")]
+    void Simulate()
+    {
+        if(_simRoutine != null)
+        {
+            StopCoroutine(_simRoutine);
+        }
+
+        _simRoutine =  StartCoroutine(AnimateSimulation(_simDuration));
+
+    }
+
+
+    /// Trains the perceptron using
+    /// input data and each points label as the target
+    /// attempts a guess, then re-calculates weights
+    IEnumerator AnimateSimulation(float duration=0.5f)
+    {
+        for (int i = 0; i < _points.Count; i++)
+        { 
             _perceptron.Train(_inputs, _points[i].Label);
 
             int guess = _perceptron.Guess(_inputs);
 
-            if(guess == _points[i].Label)
-            {
-                _points[i].SetColor(Color.green);
-            }
-            else
-            {
-                _points[i].SetColor(Color.red);
-            }
+            _points[i].Compare(guess);
 
-            yield return null;
+            yield return new WaitForSeconds(duration);
         }
-    } 
+    }
+    #endregion 
 }
  

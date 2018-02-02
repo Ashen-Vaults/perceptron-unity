@@ -20,7 +20,7 @@ public class Perceptron
     List<float> _weights = new List<float>();
     
     [SerializeField]
-    float _learningRate = 0.1f;
+    float _learningRate = 0.001f;
 
     public Perceptron(int weightSize)
     {

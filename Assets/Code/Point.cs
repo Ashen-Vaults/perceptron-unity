@@ -21,6 +21,7 @@ public class Point
         get{ return CalculateLabel(_position); }
     }
 
+
     public Point()
     {
         _position = Camera.main.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
@@ -57,6 +58,18 @@ public class Point
         else
         {
             SetColor(Color.black);
+        }
+    }
+
+    public void Compare(int guess)
+    {
+        if(guess == _label)
+        {
+            SetColor(Color.green);
+        }
+        else
+        {
+            SetColor(Color.red);
         }
     }
 

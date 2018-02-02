@@ -9,6 +9,9 @@ public class World : MonoBehaviour
     Perceptron _perceptron;
 
     [SerializeField]
+    List<Point> _points;
+
+    [SerializeField]
     List<float> _inputs;
 
     void Awake()

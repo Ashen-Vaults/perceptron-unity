@@ -21,8 +21,9 @@ public class Point
 
     public Point()
     {
-        _position = new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height),0);
-        _label = CalculateLabel(_position);   
+        _position = Camera.main.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
+
+        _label = CalculateLabel(_position); 
     }
 
     int CalculateLabel(Vector3 size)

@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+ [Serializable]
 public class Point
 {
 
@@ -11,9 +14,14 @@ public class Point
     [SerializeField]
     int _label;
 
+    public int Label
+    {
+        get{ return CalculateLabel(_position); }
+    }
+
     public Point()
     {
-        _position = new Vector3(Random.Range(0,Screen.width), Random.Range(0,Screen.height),0);
+        _position = new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height),0);
         _label = CalculateLabel(_position);   
     }
 
@@ -29,10 +37,14 @@ public class Point
         }
     }
 
-
     ///TODO: visualize
-    public void Display()
+    public void Display(Func<GameObject> prefab, Transform parent)
     {
+
+        GameObject sphere = prefab();
+        sphere.transform.SetParent(parent);
+        sphere.transform.localPosition = _position;
+           
         /*
           if label == 1
             white

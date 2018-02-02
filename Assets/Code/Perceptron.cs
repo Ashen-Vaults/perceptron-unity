@@ -18,6 +18,9 @@ public class Perceptron
 {
     [SerializeField]
     List<float> _weights = new List<float>();
+    
+    [SerializeField]
+    float _learningRate = 0.1f;
 
     public Perceptron(int weightSize)
     {
@@ -36,6 +39,23 @@ public class Perceptron
             sum += inputs[i] * _weights[i];   
         }
         return Math.Sign(sum);
+    }
+
+    
+    ///
+    /// Given a series of inputs, 
+    /// attempt a guess, get the std error
+    /// adjust the weights 
+    ///
+    public void Train(List<float> inputs, int target)
+    {
+        int guess = Guess(inputs);
+        int error = target - guess;
+
+        for (int i = 0; i < _weights.Count; i++)
+        {
+            _weights[i] += error * inputs[i] * _learningRate;    
+        }
     }
 
 }

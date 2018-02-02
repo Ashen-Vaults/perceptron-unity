@@ -14,6 +14,8 @@ public class Point
     [SerializeField]
     int _label;
 
+    GameObject _body;
+
     public int Label
     {
         get{ return CalculateLabel(_position); }
@@ -41,17 +43,33 @@ public class Point
     ///TODO: visualize
     public void Display(Func<GameObject> prefab, Transform parent)
     {
+        if(_body == null)
+        {
+            _body = prefab();
+        }
+        _body.transform.SetParent(parent);
+        _body.transform.localPosition = _position;
 
-        GameObject sphere = prefab();
-        sphere.transform.SetParent(parent);
-        sphere.transform.localPosition = _position;
-           
-        /*
-          if label == 1
-            white
+        if(_label == 1)
+        {
+            SetColor(Color.white);
+        }
         else
-            black  
-         */
+        {
+            SetColor(Color.black);
+        }
+    }
+
+    public void SetColor(Color color)
+    {
+        if(_body != null)
+        {
+            Renderer render = _body.GetComponent<Renderer>();
+            if(render != null)  
+            {
+                render.material.color = color;
+            }
+        }
     }
 
 }

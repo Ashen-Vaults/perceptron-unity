@@ -33,13 +33,17 @@ public class World : MonoBehaviour
         Debug.Log(_perceptron.Guess(_inputs));
     }  
 
+
+    void Start()
+    {
+        Simulate();
+    }
+
     [ContextMenu("Simulate")]
     void Simulate()
     {
         for (int i = 0; i < _points.Count; i++)
-        {
-        
- 
+        { 
             _points[i].Display
             (
                 ()=>
@@ -55,14 +59,13 @@ public class World : MonoBehaviour
 
             if(guess == _points[i].Label)
             {
-                //green
-            }else
+                _points[i].SetColor(Color.green);
+            }
+            else
             {
-                //red
+                _points[i].SetColor(Color.red);
             }
         }
     } 
-
-
 }
  

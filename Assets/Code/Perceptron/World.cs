@@ -37,10 +37,12 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         Dictionary<Vector3,Color> points = new Dictionary<Vector3,Color>();
 
+
         void Awake()
         {
             _perceptron = new Perceptron(2);   
         }  
+
 
         void Start()
         {
@@ -51,6 +53,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
             }));    
         }
 
+
         [ContextMenu("Draw Line")]
         void DrawLines()
         {
@@ -59,6 +62,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
             DrawPoints(() => { return _lines.FirstOrDefault(l => l.data._type == "Target");});
         }
+
 
         void DrawPoints( Func<Line> onGetTarget )
         {

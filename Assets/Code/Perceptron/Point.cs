@@ -38,11 +38,13 @@ namespace AshenCode.NeuralNetworks.Perceptron
             _label = CalculateLabel(_position, line); 
         }
 
+
         int CalculateLabel(Vector3 size, LineData line)
         {
             return line.GetSide(size);
         }
-  
+
+
         public void Create(Func<GameObject> prefab, Transform parent)
         {
             if(_body == null)
@@ -64,6 +66,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
             Display();
         }
 
+
         ///TODO: visualize
         public void Display()
         {
@@ -77,6 +80,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
             }
         }
 
+
         public void Compare(int guess)
         {
             if(guess == _label)
@@ -88,6 +92,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
                 SetColor(Color.red);
             }
         }
+        
 
         public void SetColor(Color color)
         {

@@ -26,6 +26,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
         [SerializeField]
         float _learningRate = 0.001f;
 
+
         public Perceptron(int weightSize)
         {
             //Initialize the weights
@@ -34,6 +35,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
                 _weights.Add(UnityEngine.Random.Range(-1,1));
             }
         }
+
 
         public int Guess(List<float> inputs)
         {

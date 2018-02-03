@@ -12,6 +12,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
         [SerializeField]
         public LineData data;
 
+
         void Awake()
         {
             if(_view == null)
@@ -27,6 +28,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
             data.SetType("Target");
         }
+        
         
         public void DrawLine(Vector3 pointA, Vector3 pointB)
         {

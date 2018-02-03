@@ -13,15 +13,18 @@ namespace AshenCode.NeuralNetworks.Perceptron
         public float start, end;
         public List<Vector3> positions;
 
+
         public void SetType(string type)
         {
             _type = type;      
         }
 
+
         public float MapLine(float x)
         {
             return start * x + end;
         }
+
 
         public Vector3 GetStartPoint()
         {
@@ -33,6 +36,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
         {
             return positions[positions.Count-1];    
         }
+
 
         public int GetSide(Vector3 point)
         {

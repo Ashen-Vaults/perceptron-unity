@@ -18,6 +18,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
             { "center", ()=> { return Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, Screen.height/2, Camera.main.farClipPlane/2)); }}
         };
+        
     }
 }
  

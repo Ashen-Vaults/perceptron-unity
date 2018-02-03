@@ -33,22 +33,18 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         Coroutine _simRoutine;
 
+        public Line targetLine;
+
+        Dictionary<Vector3,Color> points = new Dictionary<Vector3,Color>();
+
         void Awake()
         {
-            
-            for (int i = 0; i < _pointCount; i++)
-            {
-                _points.Add( new Point() );   
-            }
-
-            _perceptron = new Perceptron(2);
-   
+            _perceptron = new Perceptron(2);   
         }  
 
         void Start()
         {
             DrawLines();
-
             StartCoroutine(CreatePoints( _simDuration, x => 
             { 
                 StartCoroutine(AnimateSimulation(_simDuration));
@@ -58,7 +54,23 @@ namespace AshenCode.NeuralNetworks.Perceptron
         [ContextMenu("Draw Line")]
         void DrawLines()
         {
-            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_left"](), LineDispatch.lineCoordinates["top_right"]() ));
+            //TODO change so not all lines are drawn at same pos
+            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_right"](), LineDispatch.lineCoordinates["top_left"]() ));
+
+            DrawPoints(() => { return _lines.FirstOrDefault(l => l.data._type == "Target");});
+        }
+
+        void DrawPoints( Func<Line> onGetTarget )
+        {
+            targetLine = onGetTarget();
+
+            if(targetLine != null)
+            {
+                for (int i = 0; i < _pointCount; i++)
+                {
+                    _points.Add( new Point(targetLine.data.MapLine, targetLine.data.positions[0]));   
+                }
+            }
         }
 
 
@@ -69,7 +81,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
         {
             for (int i = 0; i < _points.Count; i++)
             { 
-                _points[i].Display
+                _points[i].Create
                 (
                     ()=>
                     {
@@ -120,5 +132,37 @@ namespace AshenCode.NeuralNetworks.Perceptron
             }
         }
         #endregion 
+
+
+        #region Debugging
+
+        [ContextMenu("Create Points")]
+        void DebugPoints()
+        {
+            points.Clear();
+            points.Add (LineDispatch.lineCoordinates["bottom_right"](), Color.red);
+            points.Add (LineDispatch.lineCoordinates["bottom_left"](), Color.blue);
+            points.Add (LineDispatch.lineCoordinates["top_left"](), Color.yellow);
+            points.Add (LineDispatch.lineCoordinates["top_right"](), Color.green);
+            points.Add (LineDispatch.lineCoordinates["center"](), Color.blue);
+        }
+
+
+        private void OnDrawGizmos() 
+        {
+
+            if(points != null)
+            {
+                foreach(KeyValuePair<Vector3,Color> point in points)
+                {
+                    Gizmos.color = point.Value;
+
+                    Gizmos.DrawSphere(point.Key, 1);  
+                }
+            }
+        }
+
+        #endregion
+
     } 
 }

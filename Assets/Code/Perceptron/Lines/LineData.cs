@@ -1,15 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct LineData
+namespace AshenCode.NeuralNetworks.Perceptron
 {
-    public readonly string _type;
 
-    public LineData(string type)
+    [Serializable]
+    public class LineData
     {
-        _type = type;    
-    }
+        public string _type;
+        public float start, end;
+        public List<Vector3> positions;
 
+        public void SetType(string type)
+        {
+            _type = type;      
+        }
+
+        public float MapLine(float x)
+        {
+            return start * x + end;
+        }
+
+    }
 }
- 

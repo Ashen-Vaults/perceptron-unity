@@ -17,22 +17,32 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         GameObject _body;
 
+        public Func<float, float> calculateLine;
+
         public int Label
         {
-            get{ return CalculateLabel(_position); }
+            get{ return _label; }
         }
 
 
-        public Point()
+        public Point(Func<float,float> onCalculateLine, Vector3 line)
         {
+
+            calculateLine = onCalculateLine;
+
             _position = Camera.main.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
 
-            _label = CalculateLabel(_position); 
+            _label = CalculateLabel(_position, line); 
         }
 
-        int CalculateLabel(Vector3 size)
+        int CalculateLabel(Vector3 size, Vector3 line)
         {
-            if(size.x > size.y)
+            
+
+          //  return (int)Vector2.Dot(size,line );
+
+
+            if( size.y > calculateLine(size.x))
             {
                 return 1;
             }
@@ -41,9 +51,8 @@ namespace AshenCode.NeuralNetworks.Perceptron
                 return -1;
             }
         }
-
-        ///TODO: visualize
-        public void Display(Func<GameObject> prefab, Transform parent)
+  
+        public void Create(Func<GameObject> prefab, Transform parent)
         {
             if(_body == null)
             {
@@ -51,7 +60,13 @@ namespace AshenCode.NeuralNetworks.Perceptron
             }
             _body.transform.SetParent(parent);
             _body.transform.localPosition = _position;
+            
+            Display();
+        }
 
+        ///TODO: visualize
+        public void Display()
+        {
             if(_label == 1)
             {
                 SetColor(Color.white);

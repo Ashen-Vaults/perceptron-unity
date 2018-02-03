@@ -40,7 +40,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         int CalculateLabel(Vector3 size, LineData line)
         {
-            return line.Dot(size);
+            return line.GetSide(size);
         }
   
         public void Create(Func<GameObject> prefab, Transform parent)

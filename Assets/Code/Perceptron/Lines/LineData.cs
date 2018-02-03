@@ -23,5 +23,24 @@ namespace AshenCode.NeuralNetworks.Perceptron
             return start * x + end;
         }
 
+        public Vector3 GetStartPoint()
+        {
+            return positions[0];
+        }
+
+
+        public Vector3 GetEndPoint()
+        {
+            return positions[positions.Count-1];    
+        }
+
+        public int GetSide(Vector3 point)
+        {
+            Vector3 diff = GetEndPoint() - GetStartPoint();
+            Vector3 perp = new Vector3(-diff.y, diff.x,0);
+            float d = Vector3.Dot(point - GetStartPoint(), perp);
+            return Math.Sign(d);
+        }
+
     }
 }

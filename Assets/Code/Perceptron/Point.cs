@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AshenCode.Extensions;
 using UnityEngine;
 
 namespace AshenCode.NeuralNetworks.Perceptron
@@ -25,31 +26,21 @@ namespace AshenCode.NeuralNetworks.Perceptron
         }
 
 
-        public Point(Func<float,float> onCalculateLine, Vector3 line)
+        public Point(Func<float,float> onCalculateLine, LineData line)
         {
 
             calculateLine = onCalculateLine;
 
             _position = Camera.main.ScreenToWorldPoint(new Vector3(UnityEngine.Random.Range(0,Screen.width), UnityEngine.Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
 
+            //_position = new Vector3( UnityEngine.Random.Range(-1,1), UnityEngine.Random.Range(-1,1), 0 );
+
             _label = CalculateLabel(_position, line); 
         }
 
-        int CalculateLabel(Vector3 size, Vector3 line)
+        int CalculateLabel(Vector3 size, LineData line)
         {
-            
-
-          //  return (int)Vector2.Dot(size,line );
-
-
-            if( size.y > calculateLine(size.x))
-            {
-                return 1;
-            }
-            else
-            {
-                return -1;
-            }
+            return line.Dot(size);
         }
   
         public void Create(Func<GameObject> prefab, Transform parent)
@@ -59,6 +50,15 @@ namespace AshenCode.NeuralNetworks.Perceptron
                 _body = prefab();
             }
             _body.transform.SetParent(parent);
+
+            //    Debug.Log(2.Remap(1, 3, 0, 10));    // 5
+
+            //float px = _position.x.Map(-1,1,0,Screen.width);
+            //float py = _position.y.Map(-1,1,Screen.height, 0);
+            
+
+            //_body.transform.localPosition = new Vector2(px,py);
+
             _body.transform.localPosition = _position;
             
             Display();

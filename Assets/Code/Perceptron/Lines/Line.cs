@@ -34,6 +34,9 @@ namespace AshenCode.NeuralNetworks.Perceptron
             //pointA = new Vector3( -1, data.MapLine(-1), 0 );
             //pointB = new Vector3( 1, data.MapLine(1), 0 );
 
+            pointA = new Vector3(pointA.x, data.MapLine(pointA.y), 0 );
+            pointB = new Vector3(pointB.x, data.MapLine(pointB.y), 0 );
+
             _view.SetPosition(0, pointA);
             _view.SetPosition(1, pointB);
 

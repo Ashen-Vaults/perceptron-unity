@@ -55,7 +55,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
         void DrawLines()
         {
             //TODO change so not all lines are drawn at same pos
-            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_right"](), LineDispatch.lineCoordinates["top_left"]() ));
+            _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_left"](), LineDispatch.lineCoordinates["top_right"]() ));
 
             DrawPoints(() => { return _lines.FirstOrDefault(l => l.data._type == "Target");});
         }
@@ -68,7 +68,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
             {
                 for (int i = 0; i < _pointCount; i++)
                 {
-                    _points.Add( new Point(targetLine.data.MapLine, targetLine.data.positions[0]));   
+                    _points.Add( new Point(targetLine.data.MapLine, targetLine.data));   
                 }
             }
         }

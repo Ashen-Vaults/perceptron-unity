@@ -60,6 +60,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
             //TODO change so not all lines are drawn at same pos
             _lines.ForEach(l => l.DrawLine( LineDispatch.lineCoordinates["bottom_left"](), LineDispatch.lineCoordinates["top_right"]() ));
 
+            //TODO: Either rename method or move this line somewhere else
             DrawPoints(() => { return _lines.FirstOrDefault(l => l.data._type == "Target");});
         }
 

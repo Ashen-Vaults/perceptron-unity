@@ -21,7 +21,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
     public class Perceptron 
     {
         [SerializeField]
-        List<float> _weights = new List<float>();
+        List<Input> _inputs = new List<Input>();
         
         [SerializeField]
         float _learningRate = 0.001f;
@@ -32,7 +32,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
             //Initialize the weights
             for (int i=0; i < weightSize; i++)
             {
-                _weights.Add(UnityEngine.Random.Range(-1,1));
+                _inputs.Add(new Input(){ weight = UnityEngine.Random.Range(-1,1)});
             }
         }
 
@@ -40,9 +40,9 @@ namespace AshenCode.NeuralNetworks.Perceptron
         public int Guess(List<float> inputs)
         {
             float sum = 0;
-            for (int i = 0; i < _weights.Count; i++)
+            for (int i = 0; i < _inputs.Count; i++)
             {
-                sum += inputs[i] * _weights[i];   
+                sum += _inputs[i].Product();  
             }
             return Math.Sign(sum);
         }
@@ -57,11 +57,7 @@ namespace AshenCode.NeuralNetworks.Perceptron
         {
             int guess = Guess(inputs);
             int error = target - guess;
-
-            for (int i = 0; i < _weights.Count; i++)
-            {
-                _weights[i] += error * inputs[i] * _learningRate;    
-            }
+            _inputs.ForEach( i => i.SetWeight(x => { return x += error * i.value * _learningRate;}));
         }
 
     }

@@ -32,7 +32,11 @@ namespace AshenCode.NeuralNetworks.Perceptron
             //Initialize the weights
             for (int i=0; i < weightSize; i++)
             {
-                _inputs.Add(new Input(){ weight = UnityEngine.Random.Range(-1,1)});
+                _inputs.Add(new Input()
+                {
+                    value = 0.5f,
+                    weight = UnityEngine.Random.Range(-1,1)
+                });
             }
         }
 
@@ -47,6 +51,12 @@ namespace AshenCode.NeuralNetworks.Perceptron
             return Math.Sign(sum);
         }
 
+        public int Guess()
+        {
+            List<float> values = this._inputs.Select( i => i.value).ToList();
+            return Guess(values);
+        }
+
         
         ///
         /// Given a series of inputs, 
@@ -57,7 +67,14 @@ namespace AshenCode.NeuralNetworks.Perceptron
         {
             int guess = Guess(inputs);
             int error = target - guess;
-            _inputs.ForEach( i => i.SetWeight(x => { return x += error * i.value * _learningRate;}));
+            _inputs.ForEach( i => i.ModifyWeight(x => {return x += error * i.value * _learningRate;}));
+        }
+
+
+        public void Train(int target)
+        {
+            List<float> values = this._inputs.Select( i => i.value).ToList();
+            Train(values, target);
         }
 
     }

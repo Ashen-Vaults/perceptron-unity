@@ -23,9 +23,6 @@ namespace AshenCode.NeuralNetworks.Perceptron
         List<Line> _lines;
 
         [SerializeField]
-        List<float> _inputs;
-
-        [SerializeField]
         GameObject _prefab;
 
         [SerializeField][Range(0,1)]
@@ -127,9 +124,9 @@ namespace AshenCode.NeuralNetworks.Perceptron
         {
             for (int i = 0; i < _points.Count; i++)
             { 
-                _perceptron.Train(_inputs, _points[i].Label);
+                _perceptron.Train(_points[i].Label);
 
-                int guess = _perceptron.Guess(_inputs);
+                int guess = _perceptron.Guess();
 
                 _points[i].Compare(guess);
 
@@ -155,7 +152,6 @@ namespace AshenCode.NeuralNetworks.Perceptron
 
         private void OnDrawGizmos() 
         {
-
             if(points != null)
             {
                 foreach(KeyValuePair<Vector3,Color> point in points)

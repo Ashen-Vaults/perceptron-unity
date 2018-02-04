@@ -14,9 +14,9 @@ public struct Input
         return value * weight;
     }
 
-    public void SetWeight(Func<float,float> modifier)
+    public void ModifyWeight(Func<float,float> modifier)
     {
-            weight = modifier(weight);
+        weight = modifier(weight);
     }
 }
  
